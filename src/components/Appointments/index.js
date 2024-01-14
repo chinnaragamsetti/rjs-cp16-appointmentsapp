@@ -8,6 +8,14 @@ const initialappointmentslist = []
 class Appointments extends Component {
   state = {title: '', date: '', appointmentslist: initialappointmentslist}
 
+  onChangetitle = event => {
+    this.setState({title: event.target.value})
+  }
+
+  onChangedate = event => {
+    this.setState({date: event.target.value})
+  }
+
   onSubmitdetails = event => {
     event.preventDefault()
     const {title, date} = this.state
@@ -25,6 +33,7 @@ class Appointments extends Component {
   }
 
   toggleStar = id => {
+    // const {appointmentslist} = this.state
     this.setState(prevState => ({
       appointmentslist: prevState.appointmentslist.map(each => {
         if (id === each.id) {
@@ -35,12 +44,14 @@ class Appointments extends Component {
     }))
   }
 
-  onChangetitle = event => {
-    this.setState({title: event.target.value})
-  }
-
-  onChangedate = event => {
-    this.setState({date: event.target.value})
+  starredAppointments = () => {
+    this.setState(prevState => ({
+      appointmentslist: prevState.map(each => {
+        if (each.isStarred === true) {
+          return each
+        }
+      }),
+    }))
   }
 
   render() {
@@ -79,7 +90,11 @@ class Appointments extends Component {
           <hr className="hrline" />
           <div className="starredcontainer">
             <p className="bottomheading">Appointments</p>
-            <button type="submit" className="starredbutton">
+            <button
+              type="submit"
+              className="starredbutton"
+              onClick={this.starredAppointments}
+            >
               Starred
             </button>
           </div>

@@ -7,6 +7,8 @@
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 5px;
+  width: 25%;
+  height: 50px;
 }
 .detailscontainer {
   display: flex;
@@ -16,7 +18,7 @@
 }
 .title {
   font-size: 10px;
-
+  font-weight: bold;
   margin-top: 0px;
   margin-bottom: 3px;
 }
@@ -25,7 +27,17 @@
   margin-top: 0px;
   margin-bottom: 3px;
 }
+.starbutton {
+  border: 0px transparent;
+  background-color: transparent;
+  padding-top: 0px;
+  margin-top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  cursor: pointer;
+}
 .star {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
