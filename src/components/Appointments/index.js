@@ -6,7 +6,13 @@ import AppointmentItem from '../AppointmentItem'
 
 const initialappointmentslist = []
 class Appointments extends Component {
-  state = {title: '', date: '', appointmentslist: initialappointmentslist}
+  state = {
+    title: '',
+    date: '',
+    appointmentslist: initialappointmentslist,
+    isStarredlist: false,
+    starredandUnstarredlist: initialappointmentslist,
+  }
 
   onChangetitle = event => {
     this.setState({title: event.target.value})
@@ -19,16 +25,19 @@ class Appointments extends Component {
   onSubmitdetails = event => {
     event.preventDefault()
     const {title, date} = this.state
+
     const newappointment = {
       id: uuidv4(),
       title,
       date,
+      // {`${newdate.getDate()} ${newdate.getMonth()} ${newdate.getYear()}, ${newdate.getDay()}`}
       isStarred: false,
     }
     this.setState(prevState => ({
       appointmentslist: [...prevState.appointmentslist, newappointment],
       title: '',
       date: '',
+      starredandUnstarredlist: [...prevState.appointmentslist, newappointment],
     }))
   }
 
@@ -41,17 +50,34 @@ class Appointments extends Component {
         }
         return each
       }),
+      starredandUnstarredlist: prevState.appointmentslist.map(each => {
+        if (id === each.id) {
+          return {...each, isStarred: !each.isStarred}
+        }
+        return each
+      }),
     }))
   }
 
   starredAppointments = () => {
-    this.setState(prevState => ({
-      appointmentslist: prevState.map(each => {
-        if (each.isStarred === true) {
-          return each
-        }
-      }),
-    }))
+    const {isStarredlist, starredandUnstarredlist} = this.state
+
+    if (isStarredlist === false) {
+      this.setState(prevState => ({
+        appointmentslist: prevState.appointmentslist.filter(each => {
+          if (each.isStarred === true) {
+            return each
+          }
+          return null
+        }),
+        isStarredlist: !prevState.isStarredlist,
+      }))
+    } else {
+      this.setState(prevState => ({
+        appointmentslist: starredandUnstarredlist,
+        isStarredlist: !prevState.isStarredlist,
+      }))
+    }
   }
 
   render() {
@@ -89,7 +115,7 @@ class Appointments extends Component {
           </div>
           <hr className="hrline" />
           <div className="starredcontainer">
-            <p className="bottomheading">Appointments</p>
+            <h1 className="bottomheading">Appointments</h1>
             <button
               type="submit"
               className="starredbutton"
@@ -100,7 +126,11 @@ class Appointments extends Component {
           </div>
           <ul className="appointmentslist">
             {appointmentslist.map(each => (
-              <AppointmentItem details={each} toggleStar={this.toggleStar} />
+              <AppointmentItem
+                details={each}
+                key={each.id}
+                toggleStar={this.toggleStar}
+              />
             ))}
           </ul>
         </div>
