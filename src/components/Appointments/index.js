@@ -25,12 +25,13 @@ class Appointments extends Component {
   onSubmitdetails = event => {
     event.preventDefault()
     const {title, date} = this.state
-
+    const newdate=new Date(date)
+    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
     const newappointment = {
       id: uuidv4(),
       title,
-      date,
-      // {`${newdate.getDate()} ${newdate.getMonth()} ${newdate.getYear()}, ${newdate.getDay()}`}
+      date: {`${newdate.getDate()} ${month[newdate.getMonth()]} ${newdate.getYear()}, ${day[newdate.getDay()]}`}
       isStarred: false,
     }
     this.setState(prevState => ({
