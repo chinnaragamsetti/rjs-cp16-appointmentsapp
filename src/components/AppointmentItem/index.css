@@ -8,7 +8,7 @@
   margin-bottom: 10px;
   padding: 5px;
   width: 30%;
-  height: 50px;
+  height: auto;
 }
 .detailscontainer {
   display: flex;

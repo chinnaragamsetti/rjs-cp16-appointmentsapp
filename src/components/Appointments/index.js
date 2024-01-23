@@ -85,7 +85,7 @@ class Appointments extends Component {
   }
 
   render() {
-    const {appointmentslist} = this.state
+    const {appointmentslist, title, date} = this.state
 
     return (
       <div className="maincontainer">
@@ -100,13 +100,19 @@ class Appointments extends Component {
                 type="text"
                 className="titleinput"
                 placeholder="Tile"
+                value={title}
                 id="title"
                 onChange={this.onChangetitle}
               />
               <label htmlFor="date" className="date">
                 DATE
               </label>
-              <input type="date" id="date" onChange={this.onChangedate} />
+              <input
+                type="date"
+                value={date}
+                id="date"
+                onChange={this.onChangedate}
+              />
               <button type="submit" className="button">
                 Add
               </button>
