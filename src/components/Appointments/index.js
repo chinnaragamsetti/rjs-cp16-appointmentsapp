@@ -1,17 +1,19 @@
 // Write your code here
 import './index.css'
+import {format} from 'date-fns'
 import {Component} from 'react'
 import {v4 as uuidv4} from 'uuid'
 import AppointmentItem from '../AppointmentItem'
 
 const initialappointmentslist = []
+const isstarredinitialList = []
 class Appointments extends Component {
   state = {
     title: '',
     date: '',
     appointmentslist: initialappointmentslist,
     isStarredlist: false,
-    starredandUnstarredlist: initialappointmentslist,
+    starredandUnstarredlist: isstarredinitialList,
   }
 
   onChangetitle = event => {
@@ -25,20 +27,21 @@ class Appointments extends Component {
   onSubmitdetails = event => {
     event.preventDefault()
     const {title, date} = this.state
-    const newdate=new Date(date)
-    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+    const currentDate = format(new Date(date), 'dd MMMM yyyy, EEEE')
     const newappointment = {
       id: uuidv4(),
       title,
-      date: {`${newdate.getDate()} ${month[newdate.getMonth()]} ${newdate.getYear()}, ${day[newdate.getDay()]}`}
+      date: currentDate,
       isStarred: false,
     }
     this.setState(prevState => ({
       appointmentslist: [...prevState.appointmentslist, newappointment],
       title: '',
       date: '',
-      starredandUnstarredlist: [...prevState.appointmentslist, newappointment],
+      starredandUnstarredlist: [
+        ...prevState.starredandUnstarredlist,
+        newappointment,
+      ],
     }))
   }
 
@@ -51,7 +54,7 @@ class Appointments extends Component {
         }
         return each
       }),
-      starredandUnstarredlist: prevState.appointmentslist.map(each => {
+      starredandUnstarredlist: prevState.starredandUnstarredlist.map(each => {
         if (id === each.id) {
           return {...each, isStarred: !each.isStarred}
         }
